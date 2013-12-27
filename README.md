@@ -1,4 +1,7 @@
 SomaScrobbler API Server
 ========================
 
-Work in progress
+Streams [SomaFM](http://somafm.com/) track metadata in real-time over
+socket.io.
+
+Work in progress.
