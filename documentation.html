@@ -114,14 +114,20 @@ socket.on('connect', function () {
 socket.on('track', function (track) {
     var tr = document.createElement('tr'),
         tdStation = document.createElement('td'),
+        tdTime = document.createElement('td'),
         tdArtist = document.createElement('td'),
-        tdTrack = document.createElement('td');
+        tdTrack = document.createElement('td'),
+        d = new Date();
+
+    d.setTime(track.time);
 
     tdStation.textContent = track.stationId;
+    tdTime.textContent = d;
     tdArtist.textContent = track.artist;
     tdTrack.textContent = track.title;
 
     tr.appendChild(tdStation);
+    tr.appendChild(tdTime);
     tr.appendChild(tdArtist);
     tr.appendChild(tdTrack);
 
@@ -144,7 +150,8 @@ socket.on('track', function (track) {
         </table>
 
 <script>
-var socket = io.connect('<%- proxyURL %>');
+//var socket = io.connect('<%- proxyURL %>');
+var socket = io.connect('http://127.0.0.1:9987');
 
 var tbody = document.querySelector('#demo tbody');
 
@@ -164,13 +171,15 @@ socket.on('track', function (track) {
         tdTrack = document.createElement('td'),
         d = new Date();
 
-    d.setUTCSeconds(Math.floor(track.time / 1000), 0);
+    d.setTime(track.time);
 
     tdStation.textContent = track.stationId;
+    tdTime.textContent = d;
     tdArtist.textContent = track.artist;
     tdTrack.textContent = track.title;
 
     tr.appendChild(tdStation);
+    tr.appendChild(tdTime);
     tr.appendChild(tdArtist);
     tr.appendChild(tdTrack);
 
