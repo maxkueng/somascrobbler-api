@@ -24,8 +24,8 @@
   "dependencies": {
     "through": "~2.3.4",
     "socket.io": "~0.9.16",
-    "somastation": "0.0.1",
-    "lastfm-autocorrect": "0.0.1",
+    "somastation": "0.0.2",
+    "lastfm-autocorrect": "0.0.2",
     "debug": "~0.7.4",
     "lodash": "~2.4.1"
   }

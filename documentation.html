@@ -54,6 +54,7 @@
 
 			<pre><code data-language="json">{
     stationId: 'secretagent',
+    time: 1388248804000,
     artist: 'James Clarke',
     title: 'The Free Life',
     album: 'Music For TV Dinners: The \'60s',
@@ -75,6 +76,7 @@
 
 			<ul>
 				<li><code>stationId</code> is the SomaFM station ID. The one used in the URLs, e.g. "secretagent" for "Secret Agent".</li>
+				<li><code>time</code> is the UTC unix offset in milliseconds.</li>
 				<li><code>title</code>, <code>artist</code> and <code>album</code> contain the potentially auto-corrected track title, artist name and album title.</li>
 				<li><code>autocorrected</code> will be true if any data has been auto-corrected. <code>trackCorrected</code>, <code>artistCorrected</code> and <code>albumCorrected</code> accordingly.</li>
 				<li><code>original</code> contains the uncorrected metadata from SomaFM if the data has been auto-corrected. Otherwise it will be omitted.</li>
@@ -132,6 +134,7 @@ socket.on('track', function (track) {
             <thead>
                 <tr>
                     <th>Station</th>
+                    <th>Time</th>
                     <th>Artist</th>
                     <th>Track</th>
                 </tr>
@@ -156,8 +159,12 @@ socket.on('connect', function () {
 socket.on('track', function (track) {
     var tr = document.createElement('tr'),
         tdStation = document.createElement('td'),
+        tdTime = document.createElement('td'),
         tdArtist = document.createElement('td'),
-        tdTrack = document.createElement('td');
+        tdTrack = document.createElement('td'),
+        d = new Date();
+
+    d.setUTCSeconds(Math.floor(track.time / 1000), 0);
 
     tdStation.textContent = track.stationId;
     tdArtist.textContent = track.artist;
