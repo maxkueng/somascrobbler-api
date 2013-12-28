@@ -150,8 +150,7 @@ socket.on('track', function (track) {
         </table>
 
 <script>
-//var socket = io.connect('<%- proxyURL %>');
-var socket = io.connect('http://127.0.0.1:9987');
+var socket = io.connect('<%- proxyURL %>');
 
 var tbody = document.querySelector('#demo tbody');
 
