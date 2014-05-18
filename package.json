@@ -7,6 +7,9 @@
     "url": "git://github.com/maxkueng/somascrobbler-api.git"
   },
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+  },
   "keywords": [
     "soma",
     "somafm",
