@@ -1,17 +1,31 @@
-var debug = require('debug')('somastream'),
-	fs = require('fs'),
-	path = require('path'),
-	_ = require('lodash'),
-	SomaStationStream = require('somastation'),
-	AutocorrectStream = require('lastfm-autocorrect');
-	through =  require('through'),
-	socketio = require('socket.io'),
-	config = require('./config.json'),
-	stations = require('./stations.json'),
-	server = require('http').createServer(serverHandler),
-	io = socketio.listen(server);
-	lastfmApiKey = config.lastfmApiKey || process.env.LASTFM_API_KEY,
-	noop = function () {};
+var debug = require('debug')('somastream');
+var fs = require('fs');
+var path = require('path');
+var _ = require('lodash');
+var SomaStationStream = require('somastation');
+var AutocorrectStream = require('lastfm-autocorrect');
+var through =  require('through');
+var socketio = require('socket.io');
+var stations = require('./stations.json');
+var server = require('http').createServer(serverHandler);
+var io = socketio.listen(server);
+var noop = function () {};
+
+var config = {};
+
+try {
+	config = require('./config.json');
+	debug('config', 'loaded ./config.json');
+} catch (e) {
+	debug('config', 'no config file');
+}
+
+config.port = config.port || process.env.PORT;
+config.lastfmApiKey = config.lastfmApiKey|| process.env.LASTFM_API_KEY;
+config.proxy = config.proxy || {};
+config.proxy.protocol = config.proxy.protocol || process.env.PROXY_PROTOCOL || 'http';
+config.proxy.domain = config.proxy.domain || process.env.PROXY_DOMAIN;
+config.proxy.port = config.proxy.port || process.env.PROXY_PORT;
 
 function serverHandler (req, res) {
 	fs.readFile(path.join(__dirname, 'documentation.html'), 'utf8', function (err, content) {
@@ -35,7 +49,7 @@ function serverHandler (req, res) {
 }
 
 function autocorrect () {
-	return new AutocorrectStream(lastfmApiKey);
+	return new AutocorrectStream(config.lastfmApiKey);
 }
 
 function print () {
