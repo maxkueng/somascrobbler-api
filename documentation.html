@@ -21,6 +21,8 @@
 			</div>
             <p><small>Note: This service is neither directly or indirectly affiliated with SomaFM or Last.fm. The source code for this service is freely available on <a href="https://github.com/maxkueng/somascrobbler-api">GitHub</a>.</small></p>
 
+			<p><span style="display: inline-block; padding: 3px 10px; color: #ff2ad4; border: 1px solid #ff2ad4; background-color: #550044; font-family: monospace;">Connected clients: <span class="connected-clients"><%- connectedClients %></span></span></p> 
+
 			<h2>Stations</h2>
             <p>The service currently provides data for the following stations:</p>
 			<%
@@ -155,6 +157,8 @@ var socket = io.connect('<%- proxyURL %>');
 var tbody = document.querySelector('#demo tbody');
 
 socket.on('connect', function () {
+	socket.emit('subscribe', 'meta:info');
+
     [   'groovesalad', 'secretagent',
         'doomed', 'u80s', 'bagel'
     ].forEach(function (stationId) {
@@ -183,6 +187,10 @@ socket.on('track', function (track) {
     tr.appendChild(tdTrack);
 
     tbody.insertBefore(tr, tbody.childNodes[0]);
+});
+
+socket.on('info', function (info) {
+	document.querySelector('.connected-clients').innerHTML = info.connectedClients;
 });
 </script>
 

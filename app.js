@@ -12,6 +12,7 @@ var io = socketio.listen(server);
 var noop = function () {};
 
 var config = {};
+var connectionCount = 0;
 
 try {
 	config = require('./config.json');
@@ -40,7 +41,8 @@ function serverHandler (req, res) {
 		var html = _.template(content, {
 			stations: stations,
 			proxy: config.proxy,
-			proxyURL: proxyURL
+			proxyURL: proxyURL,
+			connectedClients: connectionCount
 		});
 
 		res.writeHead(200);
@@ -63,8 +65,15 @@ server.listen(config.port || process.env.PORT || 9999);
 io.set('log level', 2);
 
 io.on('connection', function (socket) {
+	connectionCount += 1;
+	io.sockets.in('info').emit('info', { connectedClients: connectionCount });
+
 	socket.on('subscribe', function (stationId, ack) {
 		if (typeof ack !== 'function') { ack = noop; }
+
+		if (stationId === 'meta:info') {
+			return socket.join('info');
+		}
 
 		if (!stations[stationId]) {
 			return ack({ error: "No such station '" + stationId + "'" });
@@ -83,6 +92,11 @@ io.on('connection', function (socket) {
 
 		socket.leave(stationId);
 		ack({ unsubscribed: stationId });
+	});
+
+	socket.on('disconnect', function () {
+		connectionCount -= 1;
+		io.sockets.in('info').emit('info', { connectedClients: connectionCount });
 	});
 });
 
