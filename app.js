@@ -2,6 +2,7 @@ var debug = require('debug')('somastream');
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
+var moment = require('moment');
 var SomaStationStream = require('somastation');
 var AutocorrectStream = require('lastfm-autocorrect');
 var through =  require('through');
@@ -13,6 +14,7 @@ var noop = function () {};
 
 var config = {};
 var connectionCount = 0;
+var stationLastTrack = {};
 
 try {
 	config = require('./config.json');
@@ -42,7 +44,8 @@ function serverHandler (req, res) {
 			stations: stations,
 			proxy: config.proxy,
 			proxyURL: proxyURL,
-			connectedClients: connectionCount
+			connectedClients: connectionCount,
+			stationLastTrack: stationLastTrack
 		});
 
 		res.writeHead(200);
@@ -57,6 +60,13 @@ function autocorrect () {
 function print () {
 	return through(function (track) {
 		debug(track.stationId, track.artist, '-', track.title);
+	});
+}
+
+function sendInfo () {
+	io.sockets.in('info').emit('info', {
+		connectedClients: connectionCount,
+		stationLastTrack: stationLastTrack
 	});
 }
 
@@ -96,7 +106,7 @@ io.on('connection', function (socket) {
 
 	socket.on('disconnect', function () {
 		connectionCount -= 1;
-		io.sockets.in('info').emit('info', { connectedClients: connectionCount });
+		sendInfo();
 	});
 });
 
@@ -111,7 +121,9 @@ Object.keys(stations).forEach(function (stationId) {
 		.pipe(through(function (track) {
 			track.stationId = stationId;
 
+			stationLastTrack[stationId] = +moment.utc();
 			io.sockets.in(stationId).emit('track', track);
+			sendInfo();
 			this.queue(track);
 		}))
 		.pipe(print());

@@ -8,7 +8,40 @@
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/themes/github.css" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
+		<script src="//cdn.jsdelivr.net/tinycolor/0.9.16/tinycolor-min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+		<style>
+			.stations {
+				padding: 0;
+			}
+
+			.stations .station {
+				list-style-type: none;
+				display: inline-block;
+			}
+
+			.stations .station a {
+				display: inline-block;
+				margin: 0 3px 3px 0;
+				padding: 2px 6px;
+				border-width: 1px;
+				border-style: solid;
+				background-color: #fff;
+				border-color: #ddd;
+				transition: all 1s;
+				webkit-transition: all 1s;
+			}
+
+			.connected-clients {
+				display: inline-block;
+				padding: 3px 10px;
+				color: #ff2ad4;
+				border: 1px solid #ff2ad4;
+				background-color: #550044;
+				font-family: monospace;
+			}
+		</style>
 		<title>SomaScrobbler API</title>
 	</head>
 
@@ -21,18 +54,19 @@
 			</div>
             <p><small>Note: This service is neither directly or indirectly affiliated with SomaFM or Last.fm. The source code for this service is freely available on <a href="https://github.com/maxkueng/somascrobbler-api">GitHub</a>.</small></p>
 
-			<p><span style="display: inline-block; padding: 3px 10px; color: #ff2ad4; border: 1px solid #ff2ad4; background-color: #550044; font-family: monospace;">Connected clients: <span class="connected-clients"><%- connectedClients %></span></span></p> 
+			<p><span class="connected-clients">Connected clients: <span class="connection-count"><%- connectedClients %></span></span></p> 
 
 			<h2>Stations</h2>
             <p>The service currently provides data for the following stations:</p>
+			<ul class="stations">
 			<%
 			var i = 0;
 			_.forEach(stations, function (station) {
-				if (i !== 0) { %>, <% }
-			%><a rel="nofollow" href="http://somafm.com/<%= station %>/"><%- station %></a><%
+			%><li class="station"><a rel="nofollow" href="http://somafm.com/<%= station %>/"  data-stationid="<%- station %>" data-lasttrack="<%- stationLastTrack[station] %>"><%- station %></a></li><%
 				i++;
 			});
 			%>
+			</ul>
 
 			<h2>Getting Started</h2>
 			
@@ -190,8 +224,43 @@ socket.on('track', function (track) {
 });
 
 socket.on('info', function (info) {
-	document.querySelector('.connected-clients').innerHTML = info.connectedClients;
+	document.querySelector('.connection-count').innerHTML = info.connectedClients;
+
+	Object.keys(info.stationLastTrack).forEach(function (stationId) {
+		var t = info.stationLastTrack[stationId];
+		var selector = '.station a[data-stationid="' + stationId + '"]';
+		var station = document.querySelector(selector);
+
+		if (station) {
+			station.setAttribute('data-lasttrack', t);
+		}
+
+	});
 });
+
+(function () {
+	var stations = document.querySelectorAll('.stations .station a');
+	var fgColors = [ tinycolor('#efefef'), tinycolor('#333') ];
+
+	setInterval(function () {
+		var now = +moment.utc();
+		var timespan = 1200000;
+
+		[].forEach.call(stations, function (station) {
+			var lasttrack = parseInt(station.getAttribute('data-lasttrack'), 10);
+			var delta = now - lasttrack;
+			var hue = 120 - (120 / timespan * delta);
+			var background = tinycolor('hsv (' + hue + ' 100% 100%)');
+			var border = tinycolor.darken(background);
+			var color = tinycolor.mostReadable(background, fgColors);
+
+			station.style.backgroundColor = background.toRgbString();
+			station.style.borderColor = border.toRgbString();
+			station.style.color = color.toRgbString();
+		});
+	}, 1000);
+ 
+})();
 </script>
 
 		</div> <!-- /container -->

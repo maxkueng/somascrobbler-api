@@ -25,11 +25,12 @@
     }
   ],
   "dependencies": {
-    "through": "~2.3.4",
+    "debug": "~0.7.4",
+    "lastfm-autocorrect": "0.0.2",
+    "lodash": "~2.4.1",
+    "moment": "^2.6.0",
     "socket.io": "~0.9.16",
     "somastation": "0.0.4",
-    "lastfm-autocorrect": "0.0.2",
-    "debug": "~0.7.4",
-    "lodash": "~2.4.1"
+    "through": "~2.3.4"
   }
 }
