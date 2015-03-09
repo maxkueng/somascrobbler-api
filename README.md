@@ -43,13 +43,8 @@ port = 9987
 uri = http://localhost:9987
 ```
 
-Copy and edit the config file. If you're running this locally you'll have to put something like '127.0.0.1' or 'localhost' in `proxy.domain`.
+Run:
 
-```bash
-cp config.dist.json config.json
-vi config.json
-```
-
-```bash
-npm start
+```sh
+somascrobbler-api
 ```
