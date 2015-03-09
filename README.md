@@ -28,7 +28,7 @@ And then install the dependencies:
 
 ```bash
 cd path/to/somascrobbler-api
-npm install
+npm install -g
 ```
 
 Create a configuration file called ".somascrobblerapirc".
