@@ -1,0 +1,48 @@
+pre {
+	margin-bottom: 30px !important;
+}
+
+.logo {
+	height: 42px;
+}
+
+.stats {
+	margin-bottom: 30px;
+}
+
+.stats .stat {
+	display: inline-block;
+	margin-right: 10px;
+	padding: 3px 10px;
+	color: #ff2ad4;
+	border: 1px solid #ff2ad4;
+	background-color: #550044;
+	font-family: monospace;
+}
+
+.stations {
+	margin-bottom: 30px;
+}
+
+.stations .station {
+	display: inline-block;
+}
+
+.stations .station a {
+	display: inline-block;
+	margin: 0 3px 3px 0;
+	padding: 2px 6px;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #fff;
+	border-color: #ddd;
+	transition: all 1s;
+	webkit-transition: all 1s;
+}
+
+.health-bar {
+	height: 10px;
+	width: 100%;  
+	margin-bottom: 10px;
+	background: linear-gradient(to left, #ff0000 0%, #ffff00 50%, #00ff00 100%);
+}

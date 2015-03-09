@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="SomaScrobbler API documentation.">
+		<title>SomaScrobbler API</title>
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/superagent/0.15.7/superagent.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
+		<script src="//cdn.jsdelivr.net/tinycolor/0.9.16/tinycolor-min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" href="./prism.css" />
+		<link rel="stylesheet" href="./main.css" />
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			<div class="page-header">
+				<h1><img class="logo" src="./logo.svg" alt="SomaScrobbler API" /></h1>
+				<p class="lead">This is the SomaScrobbler API. Get auto-corrected and enhanced track metadata for <a rel="nofollow" href="http://somafm.com/">SomaFM</a> radio stations in real-time.</p>
+			</div>
+
+			<p><small>This service a fan project and neither directly or indirectly affiliated with SomaFM or Last.fm. The source code for this service is available on <a href="https://github.com/maxkueng/somascrobbler-api">GitHub</a> for anyone who'd like to improve upon it or run their own copy. If you encounter any problems please <a href="https://github.com/maxkueng/somascrobbler-api/issues">report an issue</a>.</small></p>
+
+			<div class="stats">
+				<div class="stat connected-clients">Connected clients: <span class="value">...</span></div>
+				<div class="stat uptime">Uptime: <span class="value">...</span> seconds</div>
+			</div>
+
+			<h2>Stations</h2>
+
+            <p>The service currently provides data for the following stations. Stations turn red if they haven't received a new track within 20 minutes. A red station my indicate a problem, however some stations have extremely long tracks.</p>
+
+			<div class="health-bar"></div>
+			<div class="stations">
+			</div>
+
+			<h2>API</h2>
+
+			<h3>REST Endpoints</h3>
+
+			<h4>GET /api/v1/stations</h4>
+			<p>Returns an object containing a list of SomaFM radio stations.</p>
+			<h5>Sample response:</h5>
+			<pre class="language-javascript" data-src="./sample-stations.js"></pre>
+
+			<h4>GET /api/v1/stats</h4>
+			<p>Returns an object containing the number of connections, uptime, and last update times for each station in milliseconds in UTC.</p>
+			<h5>Sample response:</h5>
+			<pre class="language-javascript" data-src="./sample-stats.js"></pre>
+
+			<h4>GET /api/v1/nowplaying/{stationId}</h4>
+			<p>Returns metadata about the currently playing track for a given SomaFM station.</p>
+			<h5>Sample response: </h5>
+			<pre class="language-javascript" data-src="./sample-nowplaying.js"></pre>
+
+			<h3>Socket.io API</h3>
+
+			<h4>Load the Client Library</h4>
+			<pre><code class="language-html client-include"></code></pre>
+
+			<h4>Connect to the SocketIO Endpoint</h4>
+			<pre><code class="language-javascript socketio-connect"></code></pre>
+
+			<h4>Subscribe to SomaFM Stations</h4>
+			<p>To receive track metadata you need to subscribe to each station using the station ID by emitting a <code>subscribe</code> event.</p>
+			<pre data-src="./example-subscribe.js"></pre>
+			<p>You will stop receiving updates if you emit an <code>unsubscribe</code> event.</p>
+			<pre data-src="./example-unsubscribe.js"></pre>
+
+			<h4>Receive Track Metadata</h4>
+			<p>Track metadata is provided by the <code>track</code> event.</p>
+			<pre data-src="./example-receive-track.js"></pre>
+			<p>Here's what a track object might look like:</p>
+			<pre data-src="./sample-track.js"></pre>
+
+			<h3>Example</h3>
+			<p>Here's a complete example. Want to see this in action? Scroll down to the <a href="#demo">demo</a> that's running this very bit of code.</p>
+			<pre data-src="./demo.js"></pre>
+
+			<h2>Demo</h2>
+
+			<table class="table" id="demo">
+				<thead>
+					<tr>
+						<th>Station</th>
+						<th>Time</th>
+						<th>Artist</th>
+						<th>Track</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+		<script src="./main.js"></script>
+		<script src="./demo.js"></script>
+		<script src="./prism.js"></script>
+	</body>
+</html>

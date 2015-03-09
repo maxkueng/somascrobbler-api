@@ -1,20 +1,22 @@
 {
   "name": "somascrobbler-api",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "",
   "repository": {
     "type": "git",
     "url": "git://github.com/maxkueng/somascrobbler-api.git"
   },
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
+  "main": "server.js",
+  "bin": {
+    "somascrobbler-api": "./bin/cli.js"
   },
   "keywords": [
     "soma",
     "somafm",
     "websocket",
     "socket.io",
+    "rest",
+    "metadata",
     "api"
   ],
   "author": "Max Kueng <me@maxkueng.com> (http://maxkueng.com/)",
@@ -25,12 +27,17 @@
     }
   ],
   "dependencies": {
-    "debug": "~0.7.4",
-    "lastfm-autocorrect": "0.0.2",
-    "lodash": "~2.4.1",
-    "moment": "^2.6.0",
-    "socket.io": "~0.9.16",
+    "bole": "^2.0.0",
+    "boom": "^2.6.1",
+    "hapi": "^8.2.0",
+    "lastfm-autocorrect": "^1.0.0",
+    "moment": "^2.9.0",
+    "object-assign": "^2.0.0",
+    "rc": "^0.6.0",
+    "request": "^2.53.0",
+    "socket.io": "^1.3.5",
     "somastation": "0.0.4",
-    "through": "~2.3.4"
+    "through2": "^0.6.3",
+    "xml2js": "^0.4.5"
   }
 }

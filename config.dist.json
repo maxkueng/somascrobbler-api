@@ -1,9 +1,0 @@
-{
-	"lastfmApiKey": "YOUR_LASTFM_API_KEY",
-	"port": 9987,
-	"proxy": {
-		"protocol": "http",
-		"domain": "your.domain.com",
-		"port": 80
-	}
-}
