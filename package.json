@@ -1,7 +1,7 @@
 {
   "name": "somascrobbler-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "SomaScrobbler API server",
   "repository": {
     "type": "git",
     "url": "git://github.com/maxkueng/somascrobbler-api.git"
