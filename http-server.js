@@ -7,7 +7,8 @@ var server = new hapi.Server();
 server.connection({
 	address: config.address,
 	port: config.port,
-	uri: config.uri
+	uri: config.uri,
+	routes: { cors: config.enableCors }
 });
 
 server.route([
