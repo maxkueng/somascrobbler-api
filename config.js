@@ -4,7 +4,7 @@ var defaults = {
 	lastfmApiKey: null,
 	address: '0.0.0.0',
 	port: 9987,
-	enableCors: true,,
+	enableCors: true,
 	uri: 'http://localhost:9987'
 };
 
