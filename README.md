@@ -20,8 +20,8 @@ up-time guarantee or any other type of guarantee or warranty. But we try our
 best. If you notice that the service is having problems, please just submit an
 [issue](https://github.com/maxkueng/somascrobbler-api/issues).
 
-_**Additional note**: api.somascrobbler.com currently runs an older version of the
-server. If you'd like to use the current version you can use
+_**Additional note**: api.somascrobbler.com currently runs an older version of
+the server. If you'd like to use the current version you can use
 http://api2.somascrobbler.com/ until migration is complete._
 
 
@@ -50,22 +50,32 @@ lastfmApiKey = xx123456789012345678901234567890
 address = 0.0.0.0
 port = 9987
 uri = http://localhost:9987
-
 ```
 
- - `logLevel` *(string; optional; default: info)*: The log level. Can be either "debug", "info", "warn", or "error".
+ - `logLevel` *(string; optional; default: info)*: The log level. Can be either
+   "debug", "info", "warn", or "error".
 
- - `somafmPollInterval` *(integer; optional; default: 10000)*: The number of milliseconds to wait between SomaFM API requests.
+ - `somafmPollInterval` *(integer; optional; default: 10000)*: The number of
+   milliseconds to wait between SomaFM API requests.
 
- - `lastfmApiKey` *(string; optional; default: null)*: Your Last.fm API key. This is required for metadata auto-correction. If omitted metadata will not be corrected and contain lots and lots of typos.
+ - `lastfmApiKey` *(string; optional; default: null)*: Your Last.fm API key.
+   This is required for metadata auto-correction. If omitted metadata will not
+   be corrected and contain lots and lots of typos.
 
- - `address` *(string; optional; default: 0.0.0.0)*: The IP of the interface for the web server to listen on. By default it will listen on all interfaces.
+ - `address` *(string; optional; default: 0.0.0.0)*: The IP of the interface
+   for the web server to listen on. By default it will listen on all
+   interfaces.
 
- - `port` *(integer; optional; default: 9987)*: The port for the web interface to listen on.
+ - `port` *(integer; optional; default: 9987)*: The port for the web interface
+   to listen on.
 
- - `uri` *(string; optional; default: http://localhost:9987)*: The full public URL through which the web interface will be accessible including the port number unless you're using one of the default ports.
+ - `uri` *(string; optional; default: http://localhost:9987)*: The full public
+   URL through which the web interface will be accessible including the port
+   number unless you're using one of the default ports.
 
-Configuration options can also be provided through environment variables. For example, the valirable key for `lastfmApiKey` would be `somascrobblerapi_lastfmApiKey`.
+Configuration options can also be provided through environment variables. For
+example, the valirable key for `lastfmApiKey` would be
+`somascrobblerapi_lastfmApiKey`.
 
 
 ## Run
@@ -80,11 +90,10 @@ Or provide an alternate config file:
 somascrobbler-api --config=path/to/theconfig
 ```
 
-Additionally, configuration options can be overridden through command-line arguments:
+Additionally, configuration options can be overridden through command-line
+arguments:
 
-```sh
-somascrobbler-api --lastfmApiKey=blabla_my_lasfm_key
-```
+```sh somascrobbler-api --lastfmApiKey=blabla_my_lasfm_key ```
 
 ## Docker
 
@@ -102,7 +111,7 @@ To run it, provide all non-default configuration options as environment variable
 docker run -d \
   -p 80:9987 \
   -e somascrobblerapi_lastfmApiKey=xx123456789012345678901234567890 \
-  -e somascrobblerapi_uri=example.com \
+  -e somascrobblerapi_uri=http://example.com \
   --restart on-failure \
   maxkueng/somascrobbler-api:latest
 ```
@@ -116,5 +125,29 @@ docker run -d \
   -v /path/to/the/config/file:/etc/somascrobblerapirc \
   --restart on-failure \
   maxkueng/somascrobbler-api:latest
-
 ```
+
+## License
+
+MIT License
+
+Copyright (c) 2013 Max Kueng (http://maxkueng.com/)
+ 
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+ 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
