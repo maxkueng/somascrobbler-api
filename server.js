@@ -23,11 +23,9 @@ function setup (err, stations) {
 	var io = require('./socketio-api')(server.listener, { stations: stations });
 	var tracks = require('./station-streams.js')({ stations: stations });
 
-	tracks.on('track', function (stationId, track) {
-		track = assign({}, { stationId: stationId }, track);
-		log.debug('track', track);
-		state.setNowPlaying(stationId, track);
-		io.sendTrack(stationId, track);
+	tracks.on('track', function (track) {
+		state.setNowPlaying(track.stationId, track);
+		io.sendTrack(track.stationId, track);
 		io.sendStats();
 	});
 }

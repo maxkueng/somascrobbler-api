@@ -2,7 +2,7 @@ var config = require('./config');
 var log = require('bole')('streams');
 var through2 = require('through2');
 var EventEmitter = require('events').EventEmitter;
-var SomaStationStream = require('somastation');
+var somaStationStream = require('somastation');
 var autocorrectStream = require('lastfm-autocorrect');
 var stats = require('./stats');
 
@@ -13,7 +13,22 @@ module.exports = function (options) {
 	createStationStreams(Object.keys(stations));
 
 	function createAutocorrectStream () {
+		if (!config.lastfmApiKey) {
+			return through2.obj(function (chunk, enc, next) {
+				this.push(chunk);
+				next();
+			});
+		}
+
 		return autocorrectStream(config.lastfmApiKey);
+	}
+
+	function createStationIdInjectStream (stationId) {
+		return through2.obj(function (track, enc, next) {
+			track.stationId = stationId;
+			this.push(track);
+			next();
+		});
 	}
 
 	function createSinkStream () {
@@ -22,10 +37,10 @@ module.exports = function (options) {
 		});
 	}
 
-	function createEmitTrackStream (stationId) {
+	function createEmitTrackStream () {
 		return through2.obj(function (track, enc, next) {
-			stats.updateLastTrackTime(stationId);
-			emitter.emit('track', stationId, track);
+			stats.updateLastTrackTime(track.stationId);
+			emitter.emit('track', track);
 			this.push(track);
 			next();
 		});
@@ -33,6 +48,8 @@ module.exports = function (options) {
 
 	function createLogStream () {
 		return through2.obj(function (track, enc, next) {
+			log.info('track', track.stationId + ':', track.artist, '-', track.title);
+			log.debug('track', track);
 			this.push(track);
 			next();
 		});
@@ -40,8 +57,9 @@ module.exports = function (options) {
 
 	function createStationStreams (stationIds) {
 		stationIds.forEach(function (stationId) {
-			var stream = new SomaStationStream(stationId)
+			var stream = somaStationStream(stationId, { config.somafmPollInterval: 10000 })
 				.pipe(createAutocorrectStream())
+				.pipe(createStationIdInjectStream(stationId))
 				.pipe(createLogStream())
 				.pipe(createEmitTrackStream(stationId))
 				.pipe(createSinkStream())
