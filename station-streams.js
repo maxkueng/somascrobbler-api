@@ -57,7 +57,7 @@ module.exports = function (options) {
 
 	function createStationStreams (stationIds) {
 		stationIds.forEach(function (stationId) {
-			var stream = somaStationStream(stationId, { config.somafmPollInterval: 10000 })
+			var stream = somaStationStream(stationId, { pollInterval: parseInt(config.somafmPollInterval, 10) })
 				.pipe(createAutocorrectStream())
 				.pipe(createStationIdInjectStream(stationId))
 				.pipe(createLogStream())
