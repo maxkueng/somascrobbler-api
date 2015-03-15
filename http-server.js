@@ -1,5 +1,6 @@
 var config = require('./config');
 var log = require('bole')('http-server');
+var path = require('path');
 var hapi = require('hapi');
 
 var server = new hapi.Server();
@@ -18,7 +19,7 @@ server.route([
 		method: 'GET',
 		handler: {
 			directory: {
-				path: './static',
+				path: path.resolve(__dirname, './static'),
 				listing: false,
 				index: true
 			}
@@ -29,6 +30,12 @@ server.route([
 		path: '/api/v1/stations',
 		method: 'GET',
 		handler: require('./api/get-stations.js')
+	},
+
+	{
+		path: '/api/v1/version',
+		method: 'GET',
+		handler: require('./api/get-version.js')
 	},
 
 	{

@@ -28,6 +28,7 @@
 			<p><small>This service a fan project and neither directly or indirectly affiliated with SomaFM or Last.fm. The source code for this service is available on <a href="https://github.com/maxkueng/somascrobbler-api">GitHub</a> for anyone who'd like to improve upon it or run their own copy. If you encounter any problems please <a href="https://github.com/maxkueng/somascrobbler-api/issues">report an issue</a>.</small></p>
 
 			<div class="stats">
+				<div class="stat version">Version: <span class="value">...</span></div>
 				<div class="stat connected-clients">Connected clients: <span class="value">...</span></div>
 				<div class="stat uptime">Uptime: <span class="value">...</span> seconds</div>
 			</div>
@@ -43,6 +44,11 @@
 			<h2>API</h2>
 
 			<h3>REST Endpoints</h3>
+
+			<h4>GET /api/v1/version</h4>
+			<p>Returns the version of the SomaScrobbler API server.</p>
+			<h5>Sample response:</h5>
+			<pre class="language-javascript" data-src="./sample-version.js"></pre>
 
 			<h4>GET /api/v1/stations</h4>
 			<p>Returns an object containing a list of SomaFM radio stations.</p>

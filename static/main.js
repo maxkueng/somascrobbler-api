@@ -9,6 +9,15 @@ function getStations (callback) {
 		});
 }
 
+function getVersion (callback) {
+	superagent
+		.get('/api/v1/version')
+		.set('Accept', 'application/json')
+		.end(function (err, res) {
+			callback(err, res.body.version);
+		});
+}
+
 function getStats (callback) {
 	superagent
 		.get('/api/v1/stats')
@@ -71,6 +80,11 @@ function createStationElements (stations) {
 	});
 }
 
+function updateVersion (version) {
+	var versionEl = document.querySelector('.stats .version .value');
+	versionEl.innerHTML = version;
+}
+
 function updateStats (stats) {
 	var connectionsEl = document.querySelector('.stats .connected-clients .value');
 	var uptimeEl = document.querySelector('.stats .uptime .value');
@@ -119,6 +133,10 @@ getStations(function (err, stations) {
 	var socket = io.connect(getSocketIoUrl());
 
 	socket.on('connect', function () {
+
+		getVersion(function (err, version) {
+			if (!err) { updateVersion(version); }
+		});
 
 		getStats(function (err, stats) {
 			if (!err) { updateStats(stats); }
