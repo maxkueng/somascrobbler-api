@@ -93,7 +93,9 @@ somascrobbler-api --config=path/to/theconfig
 Additionally, configuration options can be overridden through command-line
 arguments:
 
-```sh somascrobbler-api --lastfmApiKey=blabla_my_lasfm_key ```
+```sh
+somascrobbler-api --lastfmApiKey=blabla_my_lasfm_key
+```
 
 ## Docker
 
