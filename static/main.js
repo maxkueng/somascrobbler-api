@@ -14,7 +14,7 @@ function getVersion (callback) {
 		.get('/api/v1/version')
 		.set('Accept', 'application/json')
 		.end(function (err, res) {
-			callback(err, res.body.version);
+			callback(err, res.body);
 		});
 }
 
@@ -80,9 +80,23 @@ function createStationElements (stations) {
 	});
 }
 
-function updateVersion (version) {
+function updateVersion (versions) {
 	var versionEl = document.querySelector('.stats .version .value');
-	versionEl.innerHTML = version;
+	versionEl.innerHTML = versions.version;
+
+	var socketIoEl = document.querySelector('.stats .sio-version .value');
+	socketIoEl.innerHTML = versions.socketIo;
+}
+
+function uptimeTick () {
+	var uptimeEl = document.querySelector('.stats .uptime .value');
+
+	function update () {
+		var value = parseInt(uptimeEl.innerHTML);
+		uptimeEl.innerHTML = value + 1;
+	}
+
+	setInterval(update, 1000);
 }
 
 function updateStats (stats) {
@@ -134,17 +148,19 @@ getStations(function (err, stations) {
 
 	socket.on('connect', function () {
 
-		getVersion(function (err, version) {
-			if (!err) { updateVersion(version); }
+		getVersion(function (err, versions) {
+			if (!err) { updateVersion(versions); }
 		});
 
 		getStats(function (err, stats) {
 			if (!err) { updateStats(stats); }
 		});
-	
+
 		socket.emit('subscribe', 'meta:stats');
 		socket.on('stats', updateStats);
-	
+
+		uptimeTick();
+
 	});
 
 });
