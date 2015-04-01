@@ -20,10 +20,6 @@ up-time guarantee or any other type of guarantee or warranty. But we try our
 best. If you notice that the service is having problems, please just submit an
 [issue](https://github.com/maxkueng/somascrobbler-api/issues).
 
-_**Additional note**: api.somascrobbler.com currently runs an older version of
-the server. If you'd like to use the current version you can use
-http://api2.somascrobbler.com/ until migration is complete._
-
 
 ## Installation
 
