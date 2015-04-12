@@ -46,6 +46,7 @@ lastfmApiKey = xx123456789012345678901234567890
 address = 0.0.0.0
 port = 9987
 uri = http://localhost:9987
+debugEndpoint = my_secret_endpoint_pssst
 ```
 
  - `logLevel` *(string; optional; default: info)*: The log level. Can be either
@@ -68,6 +69,10 @@ uri = http://localhost:9987
  - `uri` *(string; optional; default: http://localhost:9987)*: The full public
    URL through which the web interface will be accessible including the port
    number unless you're using one of the default ports.
+
+ - `debugEndpoint` *(string; optional; default: /debug/console)*: The endpoint
+   for TV. This is not protected so it should be changed to something long and
+   cryptic.
 
 Configuration options can also be provided through environment variables. For
 example, the valirable key for `lastfmApiKey` would be
