@@ -8,7 +8,6 @@ var tv = require('tv');
 var server = new hapi.Server();
 
 server.connection({
-	host: url.parse(config.uri).hostname,
 	address: config.address,
 	port: config.port,
 	uri: config.uri,
