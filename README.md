@@ -34,7 +34,7 @@ npm install somascrobbler-api -g
 ## Configuration
 
 Create a config file "$HOME/.somascrobblerapirc" or "/etc/somascrobblerapirc",
-or any other location supported by the [rc](https://www.npmjs.com/package/rc)
+or any other location supported by the [rucola](https://www.npmjs.com/package/rucola)
 module.
 
 Here's a sample config file:
