@@ -75,10 +75,6 @@ uri = http://localhost:9987
    URL through which the web interface will be accessible including the port
    number unless you're using one of the default ports.
 
- - `dv.debugendpoint` *(string; optional; default: /debug/console)*: The endpoint
-   for TV. This is not protected so it should be changed to something long and
-   cryptic.
-
 Configuration options can also be provided through environment variables. For
 example, the valirable key for `lastfm.apikey` would be
 `SOMASCROBBLERAPI_LASTFM_APIKEY`.

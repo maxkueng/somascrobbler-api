@@ -12,6 +12,3 @@ server:
   port: 9987
   cors: true
   uri: http://localhost:9987
-
-tv:
-  debugendpoint: /debug/console

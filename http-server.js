@@ -3,7 +3,6 @@ var url = require('url');
 var log = require('bole')('http-server');
 var path = require('path');
 var hapi = require('hapi');
-var tv = require('tv');
 
 var server = new hapi.Server();
 
@@ -55,13 +54,6 @@ server.route([
 ]);
 
 server.register([
-	{
-		register: tv,
-		options: {
-			host: url.parse(config.get('server.uri')).hostname,
-			endpoint: config.get('tv.debugendpoint')
-		}
-	}
 
 ], function (err) {
 	server.start(function () {
