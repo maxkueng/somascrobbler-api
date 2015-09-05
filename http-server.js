@@ -8,10 +8,10 @@ var tv = require('tv');
 var server = new hapi.Server();
 
 server.connection({
-	address: config.address,
-	port: config.port,
-	uri: config.uri,
-	routes: { cors: config.enableCors }
+	address: config.get('server.address'),
+	port: parseInt(config.get('server.port'), 10),
+	uri: config.get('server.uri'),
+	routes: { cors: config.get('server.cors') }
 });
 
 server.route([
@@ -58,8 +58,8 @@ server.register([
 	{
 		register: tv,
 		options: {
-			host: url.parse(config.uri).hostname,
-			endpoint: config.debugEndpoint
+			host: url.parse(config.get('server.uri')).hostname,
+			endpoint: config.get('tv.debugendpoint')
 		}
 	}
 

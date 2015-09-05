@@ -13,14 +13,16 @@ module.exports = function (options) {
 	createStationStreams(Object.keys(stations));
 
 	function createAutocorrectStream () {
-		if (!config.lastfmApiKey) {
+		var lastfmApiKey = config.get('lastfm.apikey');
+
+		if (!lastfmApiKey) {
 			return through2.obj(function (chunk, enc, next) {
 				this.push(chunk);
 				next();
 			});
 		}
 
-		return autocorrectStream(config.lastfmApiKey);
+		return autocorrectStream(lastfmApiKey);
 	}
 
 	function createStationIdInjectStream (stationId) {
@@ -57,7 +59,7 @@ module.exports = function (options) {
 
 	function createStationStreams (stationIds) {
 		stationIds.forEach(function (stationId) {
-			var stream = somaStationStream(stationId, { pollInterval: parseInt(config.somafmPollInterval, 10) })
+			var stream = somaStationStream(stationId, { pollInterval: parseInt(config.get('somafm.pollinterval'), 10) })
 				.pipe(createAutocorrectStream())
 				.pipe(createStationIdInjectStream(stationId))
 				.pipe(createLogStream())

@@ -6,11 +6,11 @@ var getStations = require('./get-stations');
 var state = require('./state');
 
 bole.output({
-	level: config.logLevel,
+	level: config.get('loglevel'),
 	stream: process.stdout
 });
 
-getStations(setup); 
+getStations(setup);
 
 function setup (err, stations) {
 	if (err) {

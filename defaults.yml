@@ -1,0 +1,17 @@
+---
+loglevel: info
+
+somafm:
+  pollinterval: 10000
+
+lastfm:
+  apikey: xxx
+
+server:
+  address: 0.0.0.0
+  port: 9987
+  cors: true
+  uri: http://localhost:9987
+
+tv:
+  debugendpoint: /debug/console

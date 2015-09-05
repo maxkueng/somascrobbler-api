@@ -40,43 +40,48 @@ module.
 Here's a sample config file:
 
 ```
-logLevel = debug
-somafmPollInterval = 20000
-lastfmApiKey = xx123456789012345678901234567890
+loglevel = debug
+
+[somafm]
+pollinterval = 20000
+
+[lastfm]
+apikey = xx123456789012345678901234567890
+
+[server]
 address = 0.0.0.0
 port = 9987
 uri = http://localhost:9987
-debugEndpoint = my_secret_endpoint_pssst
 ```
 
- - `logLevel` *(string; optional; default: info)*: The log level. Can be either
+ - `loglevel` *(string; optional; default: info)*: The log level. Can be either
    "debug", "info", "warn", or "error".
 
- - `somafmPollInterval` *(integer; optional; default: 10000)*: The number of
+ - `somafm.pollinterval` *(integer; optional; default: 10000)*: The number of
    milliseconds to wait between SomaFM API requests.
 
- - `lastfmApiKey` *(string; optional; default: null)*: Your Last.fm API key.
+ - `lastfm.apikey` *(string; optional; default: null)*: Your Last.fm API key.
    This is required for metadata auto-correction. If omitted metadata will not
    be corrected and contain lots and lots of typos.
 
- - `address` *(string; optional; default: 0.0.0.0)*: The IP of the interface
+ - `server.address` *(string; optional; default: 0.0.0.0)*: The IP of the interface
    for the web server to listen on. By default it will listen on all
    interfaces.
 
- - `port` *(integer; optional; default: 9987)*: The port for the web interface
+ - `server.port` *(integer; optional; default: 9987)*: The port for the web interface
    to listen on.
 
- - `uri` *(string; optional; default: http://localhost:9987)*: The full public
+ - `server.uri` *(string; optional; default: http://localhost:9987)*: The full public
    URL through which the web interface will be accessible including the port
    number unless you're using one of the default ports.
 
- - `debugEndpoint` *(string; optional; default: /debug/console)*: The endpoint
+ - `dv.debugendpoint` *(string; optional; default: /debug/console)*: The endpoint
    for TV. This is not protected so it should be changed to something long and
    cryptic.
 
 Configuration options can also be provided through environment variables. For
-example, the valirable key for `lastfmApiKey` would be
-`somascrobblerapi_lastfmApiKey`.
+example, the valirable key for `lastfm.apikey` would be
+`SOMASCROBBLERAPI_LASTFM_APIKEY`.
 
 
 ## Run
@@ -95,7 +100,7 @@ Additionally, configuration options can be overridden through command-line
 arguments:
 
 ```sh
-somascrobbler-api --lastfmApiKey=blabla_my_lasfm_key
+somascrobbler-api --lastfm-apikey=blabla_my_lasfm_key
 ```
 
 ## Docker
@@ -113,8 +118,8 @@ To run it, provide all non-default configuration options as environment variable
 ```sh
 docker run -d \
   -p 80:9987 \
-  -e somascrobblerapi_lastfmApiKey=xx123456789012345678901234567890 \
-  -e somascrobblerapi_uri=http://example.com \
+  -e SOMASCROBBLERAPI_LASTFM_APIKEY=xx123456789012345678901234567890 \
+  -e SOMASCROBBLERAPI_SERVER_URI=http://example.com \
   --restart on-failure \
   maxkueng/somascrobbler-api:latest
 ```
