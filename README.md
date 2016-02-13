@@ -12,7 +12,7 @@ correction API.
 SomaFM is probably not too happy if a thousand people poll their API about
 several dozen thousand times per day.  So if you intend to run this software
 locally just for you, it might be better to use
-[api.somascrobbler.com](http://api.somascrobbler.com) instead of running your
+[api.somascrobbler.com](https://api.somascrobbler.com) instead of running your
 own.
 
 The service can be used for free as much as you want. There is, however, no
