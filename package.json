@@ -25,8 +25,8 @@
   ],
   "dependencies": {
     "bole": "^2.0.0",
-    "boom": "^2.6.1",
-    "hapi": "^8.2.0",
+    "boom": "^6.0.0",
+    "hapi": "^17.0.0",
     "lastfm-autocorrect": "^1.0.0",
     "moment": "^2.9.0",
     "object-assign": "^2.0.0",
